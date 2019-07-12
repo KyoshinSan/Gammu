@@ -1,4 +1,4 @@
-# Gammu
+# Envoie de SMS avec Gammu (Nokia E71)
 
 Gammu est le nom du projet et celui de l'utilitaire en ligne de commande qui vous permet de de contrôler votre téléphone. Il est écrit en C et s'appuie sur libGammu.
 
