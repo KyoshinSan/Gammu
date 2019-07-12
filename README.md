@@ -19,4 +19,70 @@ Dans ce tutoriel, je vais vous expliquer comment installer Gammu sur un serveur 
 **Transmission :** câble<br/>
 **Carte SIM :** Free Mobile
 
+## Installation Gammu
 
+Branchez le Nokia et mettre le mode PC Suite. Vérifier si le mobile est bien détectée par le système et compatible.
+
+```
+dmesg | grep tty
+
+[248509.493773] cdc_acm 1-3.2:1.10: ttyACM1: USB ACM device
+[248509.494929] cdc_acm 1-3.2:1.12: ttyACM2: USB ACM device
+```
+```
+lsusb | grep -i Nokia
+
+Bus 001 Device 105: ID 0421:00ab Nokia Mobile Phones E71 (PC Suite mode)
+```
+
+> Vous pouvez aussi vérifié auparavant si le mobile est compatible avec Gammu ([Lien](https://fr.wammu.eu/phones/))
+
+Ensuite installez Gammu. 
+
+```
+sudo yum install gammu
+```
+
+Détecter la configuration du mobile pour Gammu.
+
+```
+gammu-detect
+```
+
+Récupérer la configuration affichée à l’écran pour la mettre dans le fichier **/etc/gammurc**
+
+```
+vi /etc/gammurc
+
+[gammu]
+device = /dev/ttyACM1
+name = Nokia Nokia_E71
+connection = at
+
+[gammu1]
+device = /dev/ttyACM2
+name = Nokia Nokia_E71
+connection = at
+```
+
+Vérifier que Gammu peut utilisé votre mobile avec la commande suivante :
+
+```
+gammu identify
+
+Périphérique       : /dev/ttyACM1
+Fabricant            : Nokia
+Modèle              : unknown (Nokia E71)
+Firmware             : V ICPR71_09w22,29-05-09
+IMEI                 : 359357033338121
+SIM IMSI             : 208150110052449
+```
+
+L’envoi de SMS se fait via l’une des deux commandes suivantes :
+
+```
+gammu sendsms TEXT 06xxxxxxxx -text "Ceci est un test."
+```
+```
+echo "Ceci est un test." | gammu --sendsms TEXT 06xxxxxxxx
+```
